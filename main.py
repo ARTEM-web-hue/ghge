@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime, timedelta
 from telegram.ext import (
     Application,
@@ -138,7 +139,9 @@ async def stat_day(update: Update, context: CallbackContext) -> None:
 
 # Основная функция
 def main():
-    token = "7613638103:AAFi9pdL77iWZuZ4-vwh35sycLQh-Jx5RiQ"  # Замените YOUR_BOT_TOKEN на токен вашего бота
+    token = os.getenv("BOT_TOKEN")  # Получаем токен из переменной окружения
+    if not token:
+        raise ValueError("BOT_TOKEN не найден в переменных окружения!")
     application = Application.builder().token(token).build()
 
     # Регистрация обработчиков
