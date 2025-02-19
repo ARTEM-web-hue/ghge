@@ -1,1 +1,32 @@
+name: Deploy Telegram Bot
 
+on:
+  push:
+    branches:
+      - main  # Запускать workflow при каждом push в ветку main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Использовать последнюю версию Ubuntu
+
+    steps:
+      # Шаг 1: Клонировать репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Шаг 2: Установить Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Установить Python 3.10
+
+      # Шаг 3: Установить зависимости
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Установить библиотеки из requirements.txt
+
+      # Шаг 4: Запустить бота
+      - name: Run bot
+        run: |
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" > .env  # Создать файл .env с токеном
+          python bot.py  # Запустить бота
